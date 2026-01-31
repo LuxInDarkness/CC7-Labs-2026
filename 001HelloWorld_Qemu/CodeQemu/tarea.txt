@@ -1,0 +1,2 @@
+Cómo debuggear en Qemu? GDB
+Automatizar la compilación con parámetros y condicionales
