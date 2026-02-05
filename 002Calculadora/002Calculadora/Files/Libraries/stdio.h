@@ -1,10 +1,11 @@
 #ifndef STDIO_H
 #define STDIO_H
 
-#include <stddef.h>
-
 void print(const char *s, ...);
-int uart_atoi(const char *s);
-char* uart_itoa(int num, char *buffer);
+void read(char *buffer, const char *s, ...);
+int alpha2int(const char *s);
+float alpha2float(const char *s);
+char* int2alpha(int num, char *buffer);
+char* float2alpha(float num, char *buffer);
 
 #endif // STDIO_H

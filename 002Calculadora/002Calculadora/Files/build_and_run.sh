@@ -11,10 +11,16 @@ echo "Assembling startup.s..."
 arm-none-eabi-as -o root.o root.s
 
 echo "Compiling main.c..."
-arm-none-eabi-gcc -c -o main.o main.c
+arm-none-eabi-gcc -c -o main.o ./Program/main.c
+
+echo "Compiling uart_io.c..."
+arm-none-eabi-gcc -c -o uart_io.o ./OS/uart_io.c
+
+echo "Compiling stdio.c..."
+arm-none-eabi-gcc -I ./OS -c -o stdio.o ./Libraries/stdio.c
 
 echo "Linking object files..."
-arm-none-eabi-ld -T linker.ld -o calculadora.elf root.o main.o
+arm-none-eabi-ld -T linker.ld -o calculadora.elf root.o main.o uart_io.o stdio.o
 
 echo "Converting ELF to binary..."
 arm-none-eabi-objcopy -O binary calculadora.elf calculadora.bin
