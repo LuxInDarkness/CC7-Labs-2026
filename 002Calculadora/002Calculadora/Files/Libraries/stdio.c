@@ -2,7 +2,7 @@
 #include "uart_io.h"
 #include "stdio.h"
 
-#define INT_TO_STRING_BUFFER_SIZE 16
+#define INT_TO_STRING_BUFFER_SIZE 32
 #define FLOAT_TO_STRING_BUFFER_SIZE 32
 #define PRINT_BUFFER_SIZE 256
 
@@ -45,7 +45,7 @@ float alpha2float(const char *s) {
 
     i++;
     for (; s[i] >= '0' && s[i] <= '9'; i++) {
-        num = num + (s[i] - '0') / f;
+        num = num + (float)(s[i] - '0') / (float)f;
         f *= 10;
     }
 
@@ -95,50 +95,54 @@ char * int2alpha(int num, char *buffer) {
 
 char * float2alpha(float num, char *buffer) {
     int i = 0;
-    int is_negative = 0, multi = 10;
-    int f_value, d_value;
-    float tolerance = 0.0000001;
-    char f_string[INT_TO_STRING_BUFFER_SIZE], d_string[INT_TO_STRING_BUFFER_SIZE];
-    char *full, *decimal;
-    float temp;
+    int is_negative = 0;
+    int f_value;
+    float decimal_part;
+    int decimal_digits = 7;
 
-    if (num == 0) {
+    // Handle zero
+    if (num == 0.0f) {
         buffer[i++] = '0';
         buffer[i] = '\0';
         return buffer;
     }
 
-    if (num < 0) {
+    // Handle negative
+    if (num < 0.0f) {
         is_negative = 1;
         num = -num;
     }
 
+    // Extract integer part
     f_value = (int)num;
-    full = int2alpha(f_value, f_string);
 
-    temp = num - (float)f_value;
-    while (temp - (float)(int)temp > tolerance) {
-        temp *= (float)multi;
-        multi *= 10;
-    }
+    // Extract decimal part
+    decimal_part = num - (float)f_value;
 
-    d_value = (int)temp;
-    decimal = int2alpha(d_value, d_string);
-
+    // Add sign
     if (is_negative) {
         buffer[i++] = '-';
     }
 
-    while (*full) {
-        buffer[i++] = *full++;
+    // Convert integer part
+    char int_buffer[INT_TO_STRING_BUFFER_SIZE];
+    char *int_str = int2alpha(f_value, int_buffer);
+    while (*int_str) {
+        buffer[i++] = *int_str++;
     }
+
+    // Add decimal point
     buffer[i++] = '.';
-    while (*decimal) {
-        buffer[i++] = *decimal++;
+
+    // Convert decimal part digit by digit
+    for (int d = 0; d < decimal_digits; d++) {
+        decimal_part *= 10.0f;
+        int digit = (int)decimal_part;
+        buffer[i++] = '0' + digit;
+        decimal_part -= (float)digit;
     }
 
     buffer[i] = '\0';
-
     return buffer;
 }
 
@@ -197,13 +201,10 @@ void print(const char *s, ...) {
     va_end(args);
 }
 
-void read(char *buffer, const char *s, ...) {
+void read(char *buffer, const int buffer_size, const char *s, ...) {
     va_list args;
     va_start(args, s);
-
     vprint(s, args);
-
     va_end(args);
-
-    uart_gets_input(buffer, PRINT_BUFFER_SIZE);
+    uart_gets_input(buffer, buffer_size);
 }
