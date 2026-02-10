@@ -1,0 +1,35 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug ARM926 (QEMU)",
+      "type": "cortex-debug",
+      "request": "attach",
+      "servertype": "external",
+
+      "gdbPath": "gdb-multiarch",
+      "toolchainPrefix": "arm-none-eabi",
+
+      "showDevDebugOutput": "raw",
+      "gdbTarget": "localhost:5000",
+
+      "cwd": "${workspaceFolder}",
+
+      "executable": "${workspaceFolder}/${input:projectName}/Code/bin/program.elf",
+      "runToEntryPoint": "main"
+    }
+  ],
+
+  "inputs": [
+    {
+      "id": "projectName",
+      "type": "pickString",
+      "description": "Project: ",
+      "options": [
+        "001HelloWorld_Qemu",
+        "002Calculator",
+        "003InterruptHandler"
+      ]
+    }
+  ]
+}

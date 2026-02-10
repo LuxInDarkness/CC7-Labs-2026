@@ -1,3 +1,9 @@
 *.zip
 *.pdf
 */__MACOSX
+CMakeLists.txt
+.idea
+*.o
+*.bin
+*.elf
+.DS_Store
