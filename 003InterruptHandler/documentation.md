@@ -30,11 +30,11 @@
 ### irq_handler
 -`sub   lr, lr, #4` Equivalent to lr-=4.
 
--`stmfd sp!, {r0-r12, lr}` Store multiple full descending, saves all relevant registers to the stack.
+-`stmfd sp!, {r0-r12, lr}` Store multiple full descending (meaning default stack behaviour, assummes that the stack grows downwards and that it point to a full register, decreasing the sp before storing), saves all relevant registers to the stack, updates sp.
 
 -`bl timer_irq_handler` Branch link to timer_irq_handler (which is in our C Code).
 
--`ldmfd sp!, {r0-r12, lr}` Load multiple full descending, restores all relevant registers from the stack.
+-`ldmfd sp!, {r0-r12, lr}` Load multiple full descending, restores all relevant registers from the stack, updates sp.
 
 -`subs  pc, lr, #4` Equivalent to pc=lr-4, but also updates the CPSR (Current Program Status Register) flags based on the result.
 
