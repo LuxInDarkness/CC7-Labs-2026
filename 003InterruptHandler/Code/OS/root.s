@@ -22,10 +22,9 @@ reset_handler:
     ldr sp, =_stack_top
     
     // Set up exception vector table base address (VBAR - Vector Base Address Register)
-/*
+
     ldr r0, =vector_table
     mcr p15, 0, r0, c12, c0, 0
-*/
     
     // Call main function
     bl main

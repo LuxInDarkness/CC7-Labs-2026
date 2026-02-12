@@ -16,18 +16,17 @@ rm -f bin/*.o bin/program.elf bin/program.bin
 mkdir -p bin
 
 echo "Assembling OS/root.s..."
-arm-none-eabi-as -mcpu=arm926ej-s -o bin/root.o OS/root.s
+arm-none-eabi-as -o bin/root.o OS/root.s
 
 echo "Compiling OS/os.c..."
 arm-none-eabi-gcc -c \
-    -DPLATFORM_VERSATILEPB \
     -ffreestanding -nostdlib -nostartfiles \
     -Wall -O2 \
     -I OS \
     -o bin/os.o OS/os.c
 
 echo "Linking object files..."
-arm-none-eabi-gcc -nostartfiles -T linker_vpb.ld \
+arm-none-eabi-gcc -nostartfiles -T linker.ld \
     -o bin/program.elf \
     bin/root.o bin/os.o
 
@@ -35,5 +34,5 @@ echo "Converting ELF to binary..."
 arm-none-eabi-objcopy -O binary bin/program.elf bin/program.bin
 
 echo "Running QEMU..."
-qemu-system-arm -M versatilepb -nographic -gdb tcp::5000 -kernel bin/program.elf
-# qemu-system-arm -M beagle -nographic -kernel bin/program.elf
+# qemu-system-arm -M versatilepb -nographic -gdb tcp::5000 -kernel bin/program.elf
+qemu-system-arm -M beagle -nographic -kernel bin/program.elf
