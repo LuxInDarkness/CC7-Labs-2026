@@ -1,3 +1,4 @@
+# Ignore these files and directories
 *.zip
 *.pdf
 */__MACOSX
@@ -7,3 +8,7 @@ CMakeLists.txt
 *.bin
 *.elf
 .DS_Store
+
+# Don't ignore these files
+!004ProcessCreation_Management/Screenshots.pdf
+!004ProcessCreation_Management/Reporte.pdf
