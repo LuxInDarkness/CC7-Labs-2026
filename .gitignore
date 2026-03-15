@@ -13,3 +13,4 @@ CMakeLists.txt
 # Don't ignore these files
 !004ProcessCreation_Management/Screenshots.pdf
 !004ProcessCreation_Management/Reporte.pdf
+!006Semaphores/bin/program.bin
