@@ -6,6 +6,7 @@ void queue_init(LineQueue *q) {
     q->producer_count = 0;
     pthread_mutex_init(&q->mutex, NULL);
     pthread_cond_init(&q->not_empty, NULL);
+    pthread_cond_init(&q->not_full, NULL);
 }
 
 // Call when a producer thread starts (before pushing lines)
@@ -20,7 +21,7 @@ void queue_push(LineQueue *q, char * log) {
     pthread_mutex_lock(&q->mutex);
 
     while (q->count == QUEUE_CAPACITY)  // queue full, wait
-        pthread_cond_wait(&q->not_empty, &q->mutex);
+        pthread_cond_wait(&q->not_full, &q->mutex);
 
     strncpy(q->lines[q->tail], log, MAX_LINE_LEN - 1);
     q->lines[q->tail][MAX_LINE_LEN - 1] = '\0';
@@ -48,7 +49,7 @@ bool queue_pop(LineQueue *q, char * out_log) {
     q->head = (q->head + 1) % QUEUE_CAPACITY;
     q->count--;
 
-    pthread_cond_signal(&q->not_empty);  // wake one waiting producer if any
+    pthread_cond_signal(&q->not_full);  // wake one waiting producer if any
     pthread_mutex_unlock(&q->mutex);
     return true;
 }
@@ -72,4 +73,5 @@ void mark_done(LineQueue *q) {
 void queue_destroy(LineQueue *q) {
     pthread_mutex_destroy(&q->mutex);
     pthread_cond_destroy(&q->not_empty);
+    pthread_cond_destroy(&q->not_full);
 }

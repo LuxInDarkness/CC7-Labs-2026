@@ -18,13 +18,11 @@ mkdir -p bin
 echo "Compiling project files..."
 gcc -g -Wall \
     libraries/logger.c \
-    libraries/car.c \
-    ts_objects/ts_queue.c \
-    ts_objects/ts_results_holder.c \
-    ts_objects/ts_semaphore.c \
-    ts_objects/ui_bridge.c \
-    program/admin.c \
-    ui/parking_sim.c \
+    libraries/student.c \
+    ts_objects/queue.c \
+    ts_objects/results_holder.c \
+    ts_objects/bridge.c \
+    program/main.c \
     -O2 -lpthread $(pkg-config --cflags --libs glib-2.0) \
     -o bin/program.bin \
 

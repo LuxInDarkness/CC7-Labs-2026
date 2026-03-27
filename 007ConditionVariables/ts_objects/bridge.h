@@ -24,8 +24,8 @@ typedef struct Bridge {
 } Bridge;
 
 void init_bridge(Bridge * bridge, int spaces, int amount);
-void wait_right_bridge(Bridge * bridge);
-void wait_left_bridge(Bridge * bridge);
+int wait_right_bridge(Bridge * bridge);
+int wait_left_bridge(Bridge * bridge);
 void signal_right_bridge(Bridge * bridge);
 void signal_left_bridge(Bridge * bridge);
 void broadcast_right_bridge(Bridge * bridge);

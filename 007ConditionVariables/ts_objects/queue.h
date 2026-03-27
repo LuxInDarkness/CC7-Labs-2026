@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <pthread.h>
+#include <string.h>
 
 typedef struct LineQueue {
     char lines[QUEUE_CAPACITY][MAX_LINE_LEN];
@@ -17,7 +18,8 @@ typedef struct LineQueue {
     bool done;          // set to true when no more lines will be added
 
     pthread_mutex_t mutex;
-    pthread_cond_t  not_empty;  // signals waiting threads that a line arrived
+    pthread_cond_t not_empty;  // signals waiting threads that a line arrived
+    pthread_cond_t not_full;
 } LineQueue;
 
 void queue_init(LineQueue *q);

@@ -5,13 +5,16 @@
 #include <time.h>
 #include <string.h>
 
-#include "actions.h"
-#include "t_args.h"
-#include "../ts_objects/ui_bridge.h"
-#define LOG_FILE "parking_lot.log"
+#include "../ts_objects/queue.h"
+
+typedef struct LogArgs {
+    LineQueue * queue;
+} LogArgs;
+
+#define LOG_FILE "bridge_crossing.log"
 
 FILE *open_log_file();
-void log_message(FILE *log_fp, ParkingEvent event);
+void log_message(FILE *log_fp, char * message);
 void close_log_file(FILE *log_fp);
 void *logger_work(void *arg);
 
