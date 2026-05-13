@@ -1,0 +1,11 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+#define MAX_VA 0XFFFF
+#define MAX_VIRTUAL_PAGES 256
+#define PAGE_SIZE 256
+#define NUM_FRAMES 100
+#define MIN_OCCUPIED_FRAMES 10
+#define MAX_OCCUPIED_FRAMES 60
+
+#endif /* CONSTANTS_H */
