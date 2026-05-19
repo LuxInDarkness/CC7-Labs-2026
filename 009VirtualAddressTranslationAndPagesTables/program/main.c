@@ -26,6 +26,9 @@ int main() {
         }
         printf("RAM validation failed with seed %d. Reinitializing RAM with a new seed...\n", seed);
         seed = rand(); // Generate a new random seed
+        define_num_virtual_pages();
+        num_virtual_pages = get_num_virtual_pages();
+        printf("Number of virtual pages: %d\n", num_virtual_pages);
         create_ram(&ram, seed);
     }
     if (!validate_ram(&ram, num_virtual_pages)) {
